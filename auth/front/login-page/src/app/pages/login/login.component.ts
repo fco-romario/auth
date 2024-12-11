@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +16,11 @@ import { PrimaryInputComponent } from '../../components/primary-input/primary-in
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
-  
   loginForm!: FormGroup;
 
   constructor(
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -33,5 +34,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
+  submit(): void {
+    console.log('form', this.loginForm.value);
+    
+  }  
+  
+  navigate(): void {
+    console.log('form', this.loginForm.value);
+  } 
 }

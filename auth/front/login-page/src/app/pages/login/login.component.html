@@ -2,6 +2,9 @@
     title="Login into your account"
     primaryBtnText="Login Now"
     secondaryBtnText="Signup Now"
+    (submit)="submit()"
+    (navigate)="navigate()"
+    
 >
     <form [formGroup]="loginForm">
         <app-primary-input formControlName="email"  inputName="email" type="text" label="Email" placeholder="exemplo@gmail.com">

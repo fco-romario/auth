@@ -3,4 +3,15 @@
     primaryBtnText="Login Now"
     secondaryBtnText="Signup Now"
 >
+    <form [formGroup]="loginForm">
+        <app-primary-input formControlName="email"  inputName="email" type="text" label="Email" placeholder="exemplo@gmail.com">
+            <img src="/assets/svg/email-icon.svg"/>
+        </app-primary-input>
+
+        <app-primary-input formControlName="password" inputName="password" type="password" label="Password" placeholder="Your Password">
+            <img src="/assets/svg/password-icon.svg"/>
+        </app-primary-input>
+        <span>Forgot password:</span>
+    </form>
+
 </app-default-login-layout>

@@ -3,6 +3,8 @@ import { DefaultLoginLayoutComponent } from '../../components/default-login-layo
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +14,7 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     PrimaryInputComponent
   ],
+  providers: [LoginService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -19,8 +22,10 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
   constructor(
-    public fb: FormBuilder,
-    private router: Router
+    private fb: FormBuilder,
+    private router: Router,
+    private loginService: LoginService,
+    private toastService: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +40,11 @@ export class LoginComponent implements OnInit {
   }
 
   submit(): void {
-    console.log('form', this.loginForm.value);
+    this.loginService.login(this.loginForm.value.email, this.loginForm.value.password)
+      .subscribe({
+        next: () => this.toastService.success("Login feito com sucesso!"),
+        error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde"),
+      });
     
   }  
   

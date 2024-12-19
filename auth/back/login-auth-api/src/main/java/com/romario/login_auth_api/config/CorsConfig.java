@@ -1,14 +1,27 @@
 package com.romario.login_auth_api.config;
 
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-public class CorsConfig implements WebMvcConfigurer {
+@Configuration
+public class CorsConfig {
     
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-            .allowedOrigins("http://localhost:4200")
-            .allowedMethods("GET", "POST", "PUT", "DELETE");
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:4200"); // Permite apenas a origem do frontend
+        configuration.addAllowedMethod("GET"); // Permite o método GET
+        configuration.addAllowedMethod("POST"); // Permite o método POST
+        configuration.addAllowedMethod("PUT"); // Permite o método PUT
+        configuration.addAllowedMethod("DELETE"); // Permite o método DELETE
+        configuration.addAllowedHeader("*"); // Permite qualquer cabeçalho
+        configuration.setAllowCredentials(true); // Permite o envio de credenciais (cookies)
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);  // Aplica a configuração a todos os endpoints
+        return source;
     }
 }

@@ -19,4 +19,13 @@ export class LoginService {
       })
     );
   }
+
+  signup(name: string, email: string, password: string) {
+    return this.http.post<LoginResponse>(`${this.url}/register`, { name, email, password }).pipe(
+      tap((values) => {
+        sessionStorage.setItem('auth-token', values.token);
+        sessionStorage.setItem('auth-name', values.name);
+      })
+    )
+  }
 }

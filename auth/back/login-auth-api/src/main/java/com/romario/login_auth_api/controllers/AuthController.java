@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.romario.login_auth_api.domain.User;
+import com.romario.login_auth_api.dto.EmailDTO;
 import com.romario.login_auth_api.dto.LoginRequestDTO;
 import com.romario.login_auth_api.dto.RegisterRequestDTO;
 import com.romario.login_auth_api.dto.ResponseDTO;
 import com.romario.login_auth_api.repositories.UserRepository;
+import com.romario.login_auth_api.services.EmailService;
 import com.romario.login_auth_api.services.security.TokenService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class AuthController {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    private final EmailService mailService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO body){
@@ -47,6 +50,9 @@ public class AuthController {
             newUser.setEmail(body.email());
             newUser.setName(body.name());
             repository.save(newUser);
+
+            EmailDTO emailDTO = new EmailDTO(body.email(), "Cadastro no Auth", "Mensagem", body.name());            
+            mailService.enviaEmail(emailDTO);
 
             String token = this.tokenService.generateToken(newUser);
             return ResponseEntity.ok(new ResponseDTO(newUser.getName(), token));
